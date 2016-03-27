@@ -96,10 +96,6 @@ object Main{
     }
   }
 
-  implicit def ammoniteReplArrowBinder[T](t: (String, T))(implicit typeTag: TypeTag[T]) = {
-    Bind(t._1, t._2)(typeTag)
-  }
-
   /**
     * The debug entry-point: embed this inside any Scala program to open up
     * an ammonite REPL in-line with access to that program's variables for

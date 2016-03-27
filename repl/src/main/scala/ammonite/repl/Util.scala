@@ -5,6 +5,7 @@ import java.security.MessageDigest
 import acyclic.file
 import pprint.{PPrinter, PPrint}
 
+import scala.reflect.runtime.universe.TypeTag
 import scala.util.Try
 
 /**
@@ -265,8 +266,12 @@ object Colors{
  * REPL so it can re-create the bindings inside the REPL's scope
  */
 case class Bind[T](name: String, value: T)
-                  (implicit val typeTag: scala.reflect.runtime.universe.TypeTag[T])
-
+                  (implicit val typeTag: TypeTag[T])
+object Bind{
+  implicit def ammoniteReplArrowBinder[T](t: (String, T))(implicit typeTag: TypeTag[T]) = {
+    Bind(t._1, t._2)(typeTag)
+  }
+}
 /**
   * Encapsulates the ways the Ammonite REPL prints things
   *
